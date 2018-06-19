@@ -1,0 +1,31 @@
+[{
+  "stage": "Dam",
+  "agent": {
+    "time": "0:52",
+    "tier": "1"
+  },
+  "secret": {
+    "time": "1:16",
+    "tier": "2"
+  },
+  "doubleo": {
+    "time": "1:55",
+    "tier": "2"
+  }
+},
+{
+  "stage": "Facility",
+  "agent": {
+    "time": "0:43",
+    "tier": "3"
+  },
+  "secret": {
+    "time": "0:52",
+    "tier": "3"
+  },
+  "doubleo": {
+    "time": "0:52",
+    "tier": "2"
+  }
+}
+]
