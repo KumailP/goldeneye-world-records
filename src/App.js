@@ -6,7 +6,7 @@ class App extends Component {
   render() {
     return (
       <div className="container">
-        <h1>Goldeneye World Records</h1>
+        <h1>Goldeneye Speedrun World Records</h1>
         <MainTable />
       </div>
     );
