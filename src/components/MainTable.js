@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { Table, Icon, Modal, Button, Header, Form, Input, Select } from 'semantic-ui-react'
+import { Table, Icon, Modal, Button, Header, Form, Input } from 'semantic-ui-react'
 import records from '../tabledata/records'
 
 const color = ['white', '#32661e', '#418e23', '#4dbc21', '#b2d6a4', '#e8b2b2', '#c47f7f', '#b25555', '#772828'];
+const levels = ['agent', 'secret', 'doubleo'];
 
 export default class MainTable extends Component {
   constructor(props){
@@ -82,9 +83,10 @@ export default class MainTable extends Component {
                   <Table.Cell style={{color: 'gold', fontWeight: 'bold'}}>{record.stage}</Table.Cell>
 
 
-                  <Modal dimmer="blurring" 
+                  {levels.map((val, i) => {
+                  return (<Modal dimmer="blurring" 
                   trigger={<Table.Cell selectable 
-                   ><a href="#" onClick={this.savePrevious}>{record.agent.time} {this.getIcon(record.agent.tier)}</a></Table.Cell>}
+                   ><a href="#" onClick={this.savePrevious}>{record[val].time} {this.getIcon(record[val].tier)}</a></Table.Cell>}
                    basic size='small'>
                     <Header icon='edit' content='Edit Record' />
                     <Modal.Content>
@@ -94,13 +96,13 @@ export default class MainTable extends Component {
                       <Form>
                         <label>
                           Time
-                          <Form.Field control={Input} value={record.agent.time} onChange={(e) => this.handleChange(e.target.value, record, "agent", label)} />
+                          <Form.Field control={Input} value={record[val].time} onChange={(e) => this.handleChange(e.target.value, record, "agent", label)} />
                           </label>
                        
                         
                         <label>
                           Tier
-                      <select value={record.agent.tier} onChange={(e) => this.handleChangeSelect(e, record, "agent", label)}>
+                      <select value={record[val].tier} onChange={(e) => this.handleChangeSelect(e, record, "agent", label)}>
                         
                         {tierOptions}
                       </select>
@@ -113,68 +115,8 @@ export default class MainTable extends Component {
                       </Button>
                     </Modal.Actions>
                   </Modal>
+                  )})}
 
-                  <Modal dimmer="blurring" 
-                  trigger={<Table.Cell selectable 
-                   ><a href="#" onClick={this.savePrevious}>{record.secret.time} {this.getIcon(record.secret.tier)}</a></Table.Cell>}
-                   basic size='small'>
-                    <Header icon='edit' content='Edit Record' />
-                    <Modal.Content>
-                      <p>
-                        {record.stage} - Secret Agent Time
-                      </p>
-                      <Form>
-                        <label>
-                          Time
-                          <Form.Field control={Input} label='Time' value={record.secret.time} onChange={(e) => this.handleChange(e.target.value, record, "secret", label)} />
-                        
-                        </label>
-                        <label>
-                          Tier
-                      <select value={record.secret.tier} onChange={(e) => this.handleChangeSelect(e, record, "secret", label)}>
-                        
-                        {tierOptions}
-                        </select>
-                        </label>
-                      </Form>
-                    </Modal.Content>
-                    <Modal.Actions>
-                      <Button basic color='red' inverted onClick={this.restorePrevious}>
-                        <Icon name='remove' /> RESET
-                      </Button>
-                    </Modal.Actions>
-                  </Modal>
-
-                  <Modal dimmer="blurring" 
-                  trigger={<Table.Cell selectable 
-                   ><a href="#" onClick={this.savePrevious}>{record.doubleo.time} {this.getIcon(record.doubleo.tier)}</a></Table.Cell>}
-                   basic size='small'>
-                    <Header icon='edit' content='Edit Record' />
-                    <Modal.Content>
-                      <p>
-                        {record.stage} - 00 Agent Time
-                      </p>
-                      <Form>
-                        <label>
-                          Time
-                          <Form.Field control={Input} label='Time' value={record.doubleo.time} onChange={(e) => this.handleChange(e.target.value, record, "doubleo", label)} />
-                          
-                        </label>
-                        <label>
-                          Tier
-                      <select value={record.doubleo.tier} onChange={(e) => this.handleChangeSelect(e, record, "doubleo", label)}>
-                        
-                        {tierOptions}
-                        </select>
-                        </label>
-                      </Form>
-                    </Modal.Content>
-                    <Modal.Actions>
-                      <Button basic color='red' inverted onClick={this.restorePrevious}>
-                        <Icon name='remove' /> RESET
-                      </Button>
-                    </Modal.Actions>
-                  </Modal>
 
 
 
@@ -187,10 +129,9 @@ export default class MainTable extends Component {
             return (
                 <Table.Row key={label}>
                   <Table.Cell style={{color: 'gold', fontWeight: 'bold'}}>{record.stage}</Table.Cell>
-
-                  <Table.Cell>{record.agent.time} {this.getIcon(record.agent.tier)}</Table.Cell>
-                  <Table.Cell>{record.secret.time} {this.getIcon(record.secret.tier)}</Table.Cell>
-                  <Table.Cell>{record.doubleo.time} {this.getIcon(record.doubleo.tier)}</Table.Cell>
+                  {levels.map((val, i) => {
+                    return <Table.Cell>{record[val].time} {this.getIcon(record[val].tier)}</Table.Cell>
+                  })}
                 </Table.Row>
             )
           })
