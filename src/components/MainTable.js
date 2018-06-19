@@ -91,18 +91,18 @@ export default class MainTable extends Component {
                     <Header icon='edit' content='Edit Record' />
                     <Modal.Content>
                       <p>
-                        {record.stage} - Agent Time
+                        {record.stage} - {val.toUpperCase} Time
                       </p>
                       <Form>
                         <label>
                           Time
-                          <Form.Field control={Input} value={record[val].time} onChange={(e) => this.handleChange(e.target.value, record, "agent", label)} />
+                          <Form.Field control={Input} value={record[val].time} onChange={(e) => this.handleChange(e.target.value, record, val, label)} />
                           </label>
                        
                         
                         <label>
                           Tier
-                      <select value={record[val].tier} onChange={(e) => this.handleChangeSelect(e, record, "agent", label)}>
+                      <select value={record[val].tier} onChange={(e) => this.handleChangeSelect(e, record, val, label)}>
                         
                         {tierOptions}
                       </select>
@@ -116,10 +116,6 @@ export default class MainTable extends Component {
                     </Modal.Actions>
                   </Modal>
                   )})}
-
-
-
-
 
                 </Table.Row>
             )
