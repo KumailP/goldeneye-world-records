@@ -23,18 +23,25 @@ export default class MainTable extends Component {
   }
   
   handleChange = (value, record, level, label) => {
-
+    let recordsCopy = JSON.parse(JSON.stringify(this.state.records));
     record[level].time = value;
 
+    recordsCopy[label] = record;
+
     this.setState({
-      records: [...this.state.records, record]
+      records: JSON.parse(JSON.stringify(recordsCopy))
     })
   }
 
-  handleChangeSelect = (value, record, level) => {
+  handleChangeSelect = (e, record, level, label) => {
+    let recordsCopy = JSON.parse(JSON.stringify(this.state.records));
 
-    console.log(value);
+    record[level].tier = e.target.value;
+    recordsCopy[label] = record;
 
+    this.setState({
+      records: JSON.parse(JSON.stringify(recordsCopy))
+    })
   }
 
   savePrevious = () => {
@@ -48,16 +55,11 @@ export default class MainTable extends Component {
   }
 
   render() {
-    const tierOptions = [
-      { key: '1', text: '1', value: '1' },
-      { key: '2', text: '2', value: '2' },
-      { key: '3', text: '3', value: '3' },
-      { key: '4', text: '4', value: '4' },
-      { key: '5', text: '5', value: '5' },
-      { key: '6', text: '6', value: '6' },
-      { key: '7', text: '7', value: '7' },
-      { key: '8', text: '8', value: '8' }
-    ]
+
+    var tierOptions = [];
+    for(let i=1; i<9; i++){
+      tierOptions.push(<option key={i} value={i}>{i}</option>)
+    }
 
     return (
       <div>
@@ -90,13 +92,19 @@ export default class MainTable extends Component {
                         {record.stage} - Agent Time
                       </p>
                       <Form>
-                        <Form.Group widths='equal'>
-                          <Form.Field control={Input} label='Time' value={record.agent.time} onChange={(e) => this.handleChange(e.target.value, record, "agent", label)} />
-                          
-                        </Form.Group>
-                        <Form.Group widths='equal'>
-                        <Form.Field control={Select} label='Tier' options={tierOptions} value={record.agent.tier} onChange={(e) => this.handleChangeSelect(e.target.value, record, "agent")}/>
-                        </Form.Group>
+                        <label>
+                          Time
+                          <Form.Field control={Input} value={record.agent.time} onChange={(e) => this.handleChange(e.target.value, record, "agent", label)} />
+                          </label>
+                       
+                        
+                        <label>
+                          Tier
+                      <select value={record.agent.tier} onChange={(e) => this.handleChangeSelect(e, record, "agent", label)}>
+                        
+                        {tierOptions}
+                      </select>
+                      </label>
                       </Form>
                     </Modal.Content>
                     <Modal.Actions>
@@ -116,13 +124,18 @@ export default class MainTable extends Component {
                         {record.stage} - Secret Agent Time
                       </p>
                       <Form>
-                        <Form.Group widths='equal'>
+                        <label>
+                          Time
                           <Form.Field control={Input} label='Time' value={record.secret.time} onChange={(e) => this.handleChange(e.target.value, record, "secret", label)} />
-                          
-                        </Form.Group>
-                        <Form.Group widths='equal'>
-                        <Form.Field control={Select} label='Tier' options={tierOptions} value={record.secret.tier} />
-                        </Form.Group>
+                        
+                        </label>
+                        <label>
+                          Tier
+                      <select value={record.secret.tier} onChange={(e) => this.handleChangeSelect(e, record, "secret", label)}>
+                        
+                        {tierOptions}
+                        </select>
+                        </label>
                       </Form>
                     </Modal.Content>
                     <Modal.Actions>
@@ -142,13 +155,18 @@ export default class MainTable extends Component {
                         {record.stage} - 00 Agent Time
                       </p>
                       <Form>
-                        <Form.Group widths='equal'>
+                        <label>
+                          Time
                           <Form.Field control={Input} label='Time' value={record.doubleo.time} onChange={(e) => this.handleChange(e.target.value, record, "doubleo", label)} />
                           
-                        </Form.Group>
-                        <Form.Group widths='equal'>
-                        <Form.Field control={Select} label='Tier' options={tierOptions} value={record.doubleo.tier} />
-                        </Form.Group>
+                        </label>
+                        <label>
+                          Tier
+                      <select value={record.doubleo.tier} onChange={(e) => this.handleChangeSelect(e, record, "doubleo", label)}>
+                        
+                        {tierOptions}
+                        </select>
+                        </label>
                       </Form>
                     </Modal.Content>
                     <Modal.Actions>
