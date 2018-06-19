@@ -1,0 +1,7 @@
+.cellStyle {
+    padding: 7px 10px !important;
+}
+
+.cellStyle:hover {
+    cursor: pointer;
+}

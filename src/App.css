@@ -1,12 +1,9 @@
 body {
-    background-color: rgb(221, 221, 221);
+    background-color: rgb(224, 224, 224);
+    padding: 50px;
 }
 
 .container {
     max-width: 500px;
     margin: 0 auto;
-}
-
-.container h1{
-    margin-top: 50px;
 }
