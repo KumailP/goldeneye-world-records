@@ -14,6 +14,7 @@ export default class MainTable extends Component {
       password: '',
       wrongPassword: false
     }
+    this.hash = '$2a$10$ZiyT3wm92ZkPIRN6YV6/8ehmH2CxtWcWRvyCXB1KKsw3X4ozLiiHW';
     
   }
   
