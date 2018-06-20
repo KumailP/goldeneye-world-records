@@ -12,3 +12,7 @@ body {
 .container h1 {
     color: white;
 }
+
+.flex-container {
+    display: flex;
+}

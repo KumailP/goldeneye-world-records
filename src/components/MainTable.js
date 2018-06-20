@@ -3,7 +3,6 @@ import { Table, Icon, Modal, Button, Header, Form, Input, Message } from 'semant
 import records from '../tabledata/records'
 import './MainTable.css';
 import bcrypt from 'bcryptjs';
-const color = ['white', '#32661e', '#418e23', '#4dbc21', '#b2d6a4', '#e8b2b2', '#c47f7f', '#b25555', '#772828'];
 const levels = ['agent', 'secret', 'doubleo'];
 
 export default class MainTable extends Component {
@@ -15,18 +14,17 @@ export default class MainTable extends Component {
       password: '',
       wrongPassword: false
     }
-    // var hash = bcrypt.hashSync("PerfectAce00764", salt);
-    this.hash = '$2a$10$iHH.vJJWobzr33fUxxb.cumTFIyLiXdyQa4DQ5wRphXlUjU2ZcWjK';
     
   }
   
   componentDidMount() {
     this.setState({records: records})
     this.previousValue = JSON.parse(JSON.stringify(records))
+    this.originalValue = JSON.parse(JSON.stringify(records))
   }
   getIcon = (tierStr) => {
     let tier = parseInt(tierStr, 10);
-    return <Icon name='star' style={{color: color[tier]}}/>
+    return <Icon name='star' style={{color: this.props.color[tier]}}/>
   }
   
   handleChange = (value, record, level, label) => {
@@ -64,7 +62,6 @@ export default class MainTable extends Component {
       records: JSON.parse(JSON.stringify(this.previousValue))
     })
   }
-
   
   saveRecords = () => {
 
@@ -172,11 +169,11 @@ export default class MainTable extends Component {
         </Table>
         
         {this.state.enableEditing ? 
-        <div><Button floated='left' color='black' onClick={() => this.setState({enableEditing: false})}>Back</Button>
-        <Button floated='right' color='black' onClick={this.saveRecords}>Save Records</Button></div>
+        <div><Button floated='left' color='black' onClick={() => this.setState({enableEditing: false, records: this.originalValue})}><Icon name="cancel" /> Cancel</Button>
+        <Button floated='right' color='black' onClick={this.saveRecords}><Icon name="save" /> Save</Button></div>
         :
         <div>
-          <Modal trigger={<Button floated='left' color='black' onClick={() => {this.setState({wrongPassword: false, password: ''})}}>Edit</Button>} basic size='small'>
+          <Modal trigger={<Button floated='left' color='black' onClick={() => {this.setState({wrongPassword: false, password: ''})}}><Icon name="edit" /> Edit</Button>} basic size='small'>
           <Header icon='edit' content='Enable Editing' />
           <Modal.Content>
             
