@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Table, Icon, Modal, Button, Header, Form, Input } from 'semantic-ui-react'
+import { Table, Icon, Modal, Button, Header, Form, Input, Message } from 'semantic-ui-react'
 import records from '../tabledata/records'
 import './MainTable.css';
+import bcrypt from 'bcryptjs';
 const color = ['white', '#32661e', '#418e23', '#4dbc21', '#b2d6a4', '#e8b2b2', '#c47f7f', '#b25555', '#772828'];
 const levels = ['agent', 'secret', 'doubleo'];
 
@@ -10,8 +11,13 @@ export default class MainTable extends Component {
     super(props);
     this.state = {
       records: [],
-      enableEditing: true
+      enableEditing: false,
+      password: '',
+      wrongPassword: false
     }
+    // var hash = bcrypt.hashSync("PerfectAce00764", salt);
+    this.hash = '$2a$10$iHH.vJJWobzr33fUxxb.cumTFIyLiXdyQa4DQ5wRphXlUjU2ZcWjK';
+    
   }
   
   componentDidMount() {
@@ -45,6 +51,10 @@ export default class MainTable extends Component {
     })
   }
 
+  handleChangeEdit = (value) => {
+    this.setState({password: value});
+  }
+
   savePrevious = () => {
     this.previousValue = JSON.parse(JSON.stringify(this.state.records))
   }
@@ -55,6 +65,7 @@ export default class MainTable extends Component {
     })
   }
 
+  
   saveRecords = () => {
 
     // send this.state.records to express backend which saves it to file :)
@@ -68,6 +79,15 @@ export default class MainTable extends Component {
   
   //     console.log("The file was saved!");
   // }); 
+  }
+
+  validatePassword = () => {
+    if(bcrypt.compareSync(this.state.password, this.hash)){
+      this.setState({enableEditing: true, password: ''});
+    }
+    else{
+      this.setState({wrongPassword: true, password: ''})
+    }
   }
 
   render() {
@@ -154,8 +174,31 @@ export default class MainTable extends Component {
         {this.state.enableEditing ? 
         <div><Button floated='left' color='black' onClick={() => this.setState({enableEditing: false})}>Back</Button>
         <Button floated='right' color='black' onClick={this.saveRecords}>Save Records</Button></div>
-        : 
-        <Button floated='right' color='black' onClick={() => this.setState({enableEditing: true})}>Edit</Button>}
+        :
+        <div>
+          <Modal trigger={<Button floated='left' color='black' onClick={() => {this.setState({wrongPassword: false, password: ''})}}>Edit</Button>} basic size='small'>
+          <Header icon='edit' content='Enable Editing' />
+          <Modal.Content>
+            
+            <Form>
+          <label>
+            Password
+            <Form.Field control={Input} value={this.state.password} type="password" onChange={(e) => this.handleChangeEdit(e.target.value)} />
+           
+            </label>
+            {this.state.wrongPassword ? <Message negative>
+    <p>Incorrect Password</p>
+  </Message> : <div/>}
+            </Form>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button color='green' inverted onClick={this.validatePassword}>
+              <Icon name='checkmark' /> Enable Editing
+            </Button>
+          </Modal.Actions>
+        </Modal>
+        </div>
+        }
         </div>
     )
   }
