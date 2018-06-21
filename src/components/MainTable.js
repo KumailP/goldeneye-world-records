@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Table, Icon, Modal, Button, Header, Form, Input, Message } from 'semantic-ui-react'
-import records from '../tabledata/records'
 import './MainTable.css';
 import bcrypt from 'bcryptjs';
 const levels = ['agent', 'secret', 'doubleo'];
@@ -19,13 +18,24 @@ export default class MainTable extends Component {
   }
   
   componentDidMount() {
-    this.setState({records: records})
-    this.previousValue = JSON.parse(JSON.stringify(records))
-    this.originalValue = JSON.parse(JSON.stringify(records))
+    this.fetchRecords();
+
+    this.previousValue = JSON.parse(JSON.stringify(this.state.records))
+    this.originalValue = JSON.parse(JSON.stringify(this.state.records))
   }
   getIcon = (tierStr) => {
     let tier = parseInt(tierStr, 10);
     return <Icon name='star' style={{color: this.props.color[tier]}}/>
+  }
+
+  fetchRecords = () => {
+    fetch("/get-records")
+      .then(response => response.json())
+      .then(json => {
+        this.setState({
+          records: json
+        });
+      });
   }
   
   handleChange = (value, record, level, label) => {
@@ -64,19 +74,21 @@ export default class MainTable extends Component {
     })
   }
   
+  sendRecords = () => {
+    fetch('/save-records', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(this.state.records)
+    })
+  }
+
   saveRecords = () => {
-
-    // send this.state.records to express backend which saves it to file :)
-
-
-
-  //   fs.writeFile("../tabledata/records.json", this.state.records, 'utf8', function (err) {
-  //     if (err) {
-  //         return console.log(err);
-  //     }
-  
-  //     console.log("The file was saved!");
-  // }); 
+    this.sendRecords();
+    this.fetchRecords();
+    this.setState({enableEditing: false});
   }
 
   validatePassword = () => {
@@ -174,7 +186,7 @@ export default class MainTable extends Component {
         <Button floated='right' color='black' onClick={this.saveRecords}><Icon name="save" /> Save</Button></div>
         :
         <div>
-          <Modal trigger={<Button floated='left' color='black' onClick={() => {this.setState({wrongPassword: false, password: ''})}}><Icon name="edit" /> Edit</Button>} basic size='small'>
+          <Modal dimmer="blurring" trigger={<Button floated='left' color='black' onClick={() => {this.setState({wrongPassword: false, password: ''})}}><Icon name="edit" /> Edit</Button>} basic size='small'>
           <Header icon='edit' content='Enable Editing' />
           <Modal.Content>
             
