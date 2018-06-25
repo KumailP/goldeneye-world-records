@@ -86,7 +86,6 @@ export default class MainTable extends Component {
   saveRecords = () => {
     this.sendRecords();
     this.fetchRecords();
-    this.setState({enableEditing: false});
   }
 
 
