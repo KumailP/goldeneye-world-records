@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Icon, Modal, Button, Header, Form, Input, Message } from 'semantic-ui-react'
+import { Table, Icon, Modal, Button, Header, Form, Input } from 'semantic-ui-react'
 import './MainTable.css';
 import bcrypt from 'bcryptjs';
 import { Link } from 'react-router-dom';
@@ -10,17 +10,13 @@ export default class MainTable extends Component {
   constructor(props){
     super(props);
     this.state = {
-      records: [],
-      enableEditing: true,
-      password: '',
-      wrongPassword: false
+      records: []
     }
-    this.hash = '$2a$10$ZiyT3wm92ZkPIRN6YV6/8ehmH2CxtWcWRvyCXB1KKsw3X4ozLiiHW';
-    this.title = document.title;
-    document.title = "Edit";
   }
   
   componentDidMount() {
+    this.title = document.title;
+    document.title = "Goldeneye WRs - Edit";
     this.fetchRecords();
   }
   componentWillUnmount() {
@@ -65,9 +61,6 @@ export default class MainTable extends Component {
     })
   }
 
-  handleChangeEdit = (value) => {
-    this.setState({password: value});
-  }
 
   savePrevious = () => {
     this.previousValue = JSON.parse(JSON.stringify(this.state.records))
@@ -96,14 +89,6 @@ export default class MainTable extends Component {
     this.setState({enableEditing: false});
   }
 
-  validatePassword = () => {
-    if(bcrypt.compareSync(this.state.password, this.hash)){
-      this.setState({enableEditing: true, password: ''});
-    }
-    else{
-      this.setState({wrongPassword: true, password: ''})
-    }
-  }
 
   render() {
 
@@ -176,8 +161,10 @@ export default class MainTable extends Component {
           
         </Table>
         
-        <div><Link to="/"><Button floated='left' color='black' onClick={() => this.setState({records: this.originalValue})}><Icon name="cancel" /> Cancel</Button></Link>
-        <Button floated='right' color='black' onClick={this.saveRecords}><Icon name="save" /> Save</Button></div>
+        <div>
+            <Link to="/"><Button floated='left' color='black' onClick={() => this.setState({records: this.originalValue})}><Icon name="cancel" /> Cancel</Button></Link>
+            <Link to="/"><Button floated='right' color='black' onClick={this.saveRecords}><Icon name="save" /> Save</Button></Link>
+        </div>
         
         </div>
     )

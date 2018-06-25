@@ -1,19 +1,14 @@
-import React, { Component } from 'react'
-import { Table, Icon, Modal, Button, Header, Form, Input, Message } from 'semantic-ui-react'
+import React, { Component } from 'react';
+import { Table, Icon } from 'semantic-ui-react';
 import './MainTable.css';
-import bcrypt from 'bcryptjs';
 const levels = ['agent', 'secret', 'doubleo'];
 
 export default class MainTable extends Component {
   constructor(props){
     super(props);
     this.state = {
-      records: [],
-      enableEditing: false,
-      password: '',
-      wrongPassword: false
+      records: []
     }
-    this.hash = '$2a$10$ZiyT3wm92ZkPIRN6YV6/8ehmH2CxtWcWRvyCXB1KKsw3X4ozLiiHW';
   }
   
   componentDidMount() {
@@ -36,69 +31,7 @@ export default class MainTable extends Component {
       this.previousValue = JSON.parse(JSON.stringify(this.state.records))
       this.originalValue = JSON.parse(JSON.stringify(this.state.records))
   }
-  
-  handleChange = (value, record, level, label) => {
-    let recordsCopy = JSON.parse(JSON.stringify(this.state.records));
-    record[level].time = value;
-
-    recordsCopy[label] = record;
-
-    this.setState({
-      records: JSON.parse(JSON.stringify(recordsCopy))
-    })
-  }
-
-  handleChangeSelect = (e, record, level, label) => {
-    let recordsCopy = JSON.parse(JSON.stringify(this.state.records));
-
-    record[level].tier = e.target.value;
-    recordsCopy[label] = record;
-
-    this.setState({
-      records: JSON.parse(JSON.stringify(recordsCopy))
-    })
-  }
-
-  handleChangeEdit = (value) => {
-    this.setState({password: value});
-  }
-
-  savePrevious = () => {
-    this.previousValue = JSON.parse(JSON.stringify(this.state.records))
-  }
-
-  restorePrevious = () => {
-    this.setState({
-      records: JSON.parse(JSON.stringify(this.previousValue))
-    })
-  }
-  
-  sendRecords = () => {
-    fetch('/save-records', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(this.state.records)
-    })
-  }
-
-  saveRecords = () => {
-    this.sendRecords();
-    this.fetchRecords();
-    this.setState({enableEditing: false});
-  }
-
-  validatePassword = () => {
-    if(bcrypt.compareSync(this.state.password, this.hash)){
-      this.setState({enableEditing: true, password: ''});
-    }
-    else{
-      this.setState({wrongPassword: true, password: ''})
-    }
-  }
-
+    
   render() {
 
     var tierOptions = [];

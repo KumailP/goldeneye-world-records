@@ -3,7 +3,7 @@ import './App.css';
 import MainTable from './components/MainTable';
 import MainTableEditable from './components/MainTableEditable';
 import TierTable from './components/TierTable';
-import { BrowserRouter, Route, Link, Redirect, Switch, withRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import { Icon, Modal, Button, Header, Form, Input, Message } from 'semantic-ui-react';
 import bcrypt from 'bcryptjs';
 
@@ -62,8 +62,7 @@ class Login extends Component {
     }
     return (
       <div>
-        <div>
-          <Modal dimmer="blurring" trigger={<Button floated='left' color='black' onClick={() => {this.setState({wrongPassword: false, password: ''})}}><Icon name="edit" /> Edit</Button>} basic size='small'>
+        <Modal dimmer="blurring" trigger={<Button floated='left' color='black' onClick={() => {this.setState({wrongPassword: false, password: ''})}}><Icon name="edit" /> Edit</Button>} basic size='small'>
           <Header icon='edit' content='Enable Editing' />
           <Modal.Content>
             
@@ -84,7 +83,6 @@ class Login extends Component {
             </Button>
           </Modal.Actions>
         </Modal>
-        </div>
       </div>
     )
   }
@@ -92,6 +90,13 @@ class Login extends Component {
 
 
 class App extends Component {
+  state = {
+    key: Math.random()
+  }
+  renderRoot = () => {
+    fakeAuth.signout();
+    return <MainTable style={{flex: 1}} color={color}/>
+  }
   render() {
     return (
       <BrowserRouter>
@@ -99,7 +104,7 @@ class App extends Component {
           <h1>Goldeneye Speedrun World Records</h1>
           <div className="flex-container">
             <Switch>
-              <Route path="/" exact render={() => ( <MainTable style={{flex: 1}} color={color}/> )} />
+              <Route path="/" exact render={this.renderRoot} />
               
               <Route path="/edit" render={() => (
                 fakeAuth.isAuth ? <MainTableEditable style={{flex: 1}} color={color} />
@@ -109,7 +114,7 @@ class App extends Component {
             </Switch>
             <TierTable style={{flex: 1}} color={color}/>
           </div>
-          <Login style={{marginTop: '10px'}}/>
+          <Login style={{marginTop: '10px'}} key={this.state.key} />
         </div>
       </BrowserRouter>
     );
