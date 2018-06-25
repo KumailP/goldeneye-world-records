@@ -16,3 +16,16 @@ body {
 .flex-container {
     display: flex;
 }
+
+.right-section{
+    margin-left: 10px;
+}
+
+.loginBtn{
+    margin-top: 10px;
+    width: 100%;
+}
+
+.loginBtn i{
+    margin: 0 auto !important;
+}

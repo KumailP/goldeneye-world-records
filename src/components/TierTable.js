@@ -1,10 +1,6 @@
 import React from 'react';
 import { Table, Icon } from 'semantic-ui-react';
 
-const tableStyle = {
-    marginLeft: '10px'
-}
-
 export default class TierTable extends React.Component {
   render() {
     var tiers = [];
@@ -16,7 +12,7 @@ export default class TierTable extends React.Component {
     }
     return (
       <div>
-        <Table celled inverted selectable compact style={tableStyle}>
+        <Table celled inverted selectable compact>
             <Table.Header fullWidth>
             <Table.Row>
                 <Table.HeaderCell colSpan='2'>Tier</Table.HeaderCell>

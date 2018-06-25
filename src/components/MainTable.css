@@ -69,3 +69,7 @@
 .centerFlex {
     flex: 1;
 }
+
+.ui.table {
+    margin-bottom: 0px !important;
+}

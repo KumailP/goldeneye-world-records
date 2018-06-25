@@ -141,8 +141,7 @@ export default class MainTable extends Component {
                           Time
                           <Form.Field control={Input} value={record[val].time} onChange={(e) => this.handleChange(e.target.value, record, val, label)} />
                           </label>
-                       
-                        <br/>
+                       <br/>
                         <label>
                           Tier
                       <Rating icon='star' size='huge' defaultRating={record[val].tier} maxRating={8} onRate={(e, {rating}) => this.handleRate(e, rating, record, val, label)}/>

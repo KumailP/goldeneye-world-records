@@ -62,7 +62,7 @@ class Login extends Component {
     }
     return (
       <div>
-        <Modal dimmer="blurring" trigger={<Button floated='left' color='black' onClick={() => {this.setState({wrongPassword: false, password: ''})}}><Icon name="edit" /> Edit</Button>} basic size='small'>
+        <Modal dimmer="blurring" trigger={<Button className="loginBtn" color='black' onClick={() => {this.setState({wrongPassword: false, password: ''})}}><Icon name="edit" /></Button>} basic size='small'>
           <Header icon='edit' content='Enable Editing' />
           <Modal.Content>
             
@@ -112,9 +112,11 @@ class App extends Component {
                 <Redirect to='/' />
               )} />
             </Switch>
-            <TierTable style={{flex: 1}} color={color}/>
+            <div className="right-section">
+              <TierTable style={{flex: 1}} color={color}/>
+              <Login key={this.state.key} />
+            </div>
           </div>
-          <Login style={{marginTop: '10px'}} key={this.state.key} />
         </div>
       </BrowserRouter>
     );
