@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Icon } from 'semantic-ui-react';
+import { Table, Icon, Dimmer, Loader } from 'semantic-ui-react';
 import './MainTable.css';
 const levels = ['agent', 'secret', 'doubleo'];
 
@@ -7,7 +7,8 @@ export default class MainTable extends Component {
   constructor(props){
     super(props);
     this.state = {
-      records: []
+      records: [],
+      loading: true
     }
   }
   
@@ -28,8 +29,9 @@ export default class MainTable extends Component {
           records: json
         });
       });
-      this.previousValue = JSON.parse(JSON.stringify(this.state.records))
-      this.originalValue = JSON.parse(JSON.stringify(this.state.records))
+      this.previousValue = JSON.parse(JSON.stringify(this.state.records));
+      this.originalValue = JSON.parse(JSON.stringify(this.state.records));
+      this.setState({loading: false});
   }
     
   render() {
@@ -52,6 +54,9 @@ export default class MainTable extends Component {
           </Table.Header>
 
           <Table.Body>
+          <Dimmer active={this.state.loading}>
+            <Loader />
+          </Dimmer>
           {
           this.state.records.map((record, label) => {
             return (

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Icon, Modal, Button, Header, Form, Input, Rating, Segment } from 'semantic-ui-react'
+import { Table, Icon, Modal, Button, Header, Form, Input, Rating, Loader, Dimmer } from 'semantic-ui-react'
 import './MainTable.css';
 import { Link } from 'react-router-dom';
 
@@ -9,7 +9,8 @@ export default class MainTable extends Component {
   constructor(props){
     super(props);
     this.state = {
-      records: []
+      records: [],
+      loading: true
     }
   }
   
@@ -27,7 +28,7 @@ export default class MainTable extends Component {
   }
 
   fetchRecords = () => {
-    fetch("/get-records")
+      fetch("/get-records")
       .then(response => response.json())
       .then(json => {
         this.setState({
@@ -36,6 +37,7 @@ export default class MainTable extends Component {
       });
       this.previousValue = JSON.parse(JSON.stringify(this.state.records))
       this.originalValue = JSON.parse(JSON.stringify(this.state.records))
+      this.setState({loading: false});
   }
   
   handleChange = (value, record, level, label) => {
@@ -86,7 +88,6 @@ export default class MainTable extends Component {
   saveRecords = () => {
     this.sendRecords();
     this.fetchRecords();
-    this.setState({enableEditing: false});
   }
 
 
@@ -110,6 +111,10 @@ export default class MainTable extends Component {
           </Table.Header>
 
           <Table.Body>
+
+          <Dimmer active={this.state.loading}>
+            <Loader />
+          </Dimmer>
           { 
           this.state.records.map((record, label) => {
             
