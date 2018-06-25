@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { Table, Icon, Modal, Button, Header, Form, Input } from 'semantic-ui-react'
+import { Table, Icon, Modal, Button, Header, Form, Input, Rating, Segment } from 'semantic-ui-react'
 import './MainTable.css';
-import bcrypt from 'bcryptjs';
 import { Link } from 'react-router-dom';
 
 const levels = ['agent', 'secret', 'doubleo'];
@@ -50,10 +49,15 @@ export default class MainTable extends Component {
     })
   }
 
-  handleChangeSelect = (e, record, level, label) => {
+
+  handleRate = (e, rating, record, level, label) => {
+    console.log('rating: ' + rating);
+    console.log('e: ' + e.target.value);
+
+    
     let recordsCopy = JSON.parse(JSON.stringify(this.state.records));
 
-    record[level].tier = e.target.value;
+    record[level].tier = rating;
     recordsCopy[label] = record;
 
     this.setState({
@@ -112,21 +116,25 @@ export default class MainTable extends Component {
           <Table.Body>
           { 
           this.state.records.map((record, label) => {
-
+            
             return (
                 <Table.Row key={label}>
                   <Table.Cell style={{color: 'gold', fontWeight: 'bold'}}>{record.stage}</Table.Cell>
 
 
                   {levels.map((val, i) => {
+                    let agentType;
+                    if(val==='agent') agentType = 'Agent';
+                    else if(val==='secret') agentType = 'Secret Agent';
+                    else if(val==='doubleo') agentType = '00 Agent';
                   return (<Modal dimmer="blurring" key={i}
                   trigger={<Table.Cell selectable className="cellStyle"
                    onClick={this.savePrevious}>{record[val].time} {this.getIcon(record[val].tier)}</Table.Cell>}
-                   basic size='small'>
+                   size='mini'>
                     <Header icon='edit' content='Edit Record' />
                     <Modal.Content>
                       <p>
-                        {record.stage} - {val.charAt(0).toUpperCase() + val.slice(1)} Time
+                        {record.stage} - {agentType}
                       </p>
                       <Form>
                         <label>
@@ -134,20 +142,24 @@ export default class MainTable extends Component {
                           <Form.Field control={Input} value={record[val].time} onChange={(e) => this.handleChange(e.target.value, record, val, label)} />
                           </label>
                        
-                        
+                        <br/>
                         <label>
                           Tier
-                      <select value={record[val].tier} onChange={(e) => this.handleChangeSelect(e, record, val, label)}>
-                        
-                        {tierOptions}
-                      </select>
+                      <Rating icon='star' size='huge' defaultRating={record[val].tier} maxRating={8} onRate={(e, {rating}) => this.handleRate(e, rating, record, val, label)}/>
+
                       </label>
                       </Form>
                     </Modal.Content>
                     <Modal.Actions>
-                      <Button basic color='red' inverted onClick={this.restorePrevious}>
-                        <Icon name='remove' /> RESET
-                      </Button>
+                      <div className="modalBtn">
+                        <Button color='green' inverted onClick={this.restorePrevious}>
+                          <Icon name='save' /> SAVE
+                        </Button>
+                        <div className="centerFlex"></div>
+                        <Button color='red' inverted onClick={this.restorePrevious}>
+                          <Icon name='remove' /> CANCEL
+                        </Button>
+                      </div>
                     </Modal.Actions>
                   </Modal>
                   )})}

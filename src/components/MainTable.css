@@ -5,3 +5,67 @@
 .cellStyle:hover {
     cursor: pointer;
 }
+
+
+
+.rating i:nth-child(1):after{
+    content: '1';
+}
+.rating i:nth-child(2):after{
+    content: '2';
+}
+.rating i:nth-child(3):after{
+    content: '3';
+}
+.rating i:nth-child(4):after{
+    content: '4';
+}
+.rating i:nth-child(5):after{
+    content: '5';
+}
+.rating i:nth-child(6):after{
+    content: '6';
+}
+.rating i:nth-child(7):after{
+    content: '7';
+}
+.rating i:nth-child(8):after{
+    content: '8';
+}
+
+.ui.modal>.content {
+    background: #131414;
+}
+
+.ui.modal>.header {
+    background: #1b1c1d;
+    color: white;
+}
+
+.ui.modal>.actions {
+    background: #1b1c1d;
+}
+
+.ui.modal {
+    color: white;
+    border: 1px solid white;
+}
+
+.ui.form input:not([type]), .ui.form input[type=date], .ui.form input[type=datetime-local], .ui.form input[type=email], .ui.form input[type=file], .ui.form input[type=number], .ui.form input[type=password], .ui.form input[type=search], .ui.form input[type=tel], .ui.form input[type=text], .ui.form input[type=time], .ui.form input[type=url] {
+    margin-top: 10px;
+}
+
+.ui.button {
+    margin-top: 10px;
+}
+
+.modalBtn{
+    width: 100%;
+    display: flex;
+}
+.ui.button {
+    flex: 2;
+}
+.centerFlex {
+    flex: 1;
+}
