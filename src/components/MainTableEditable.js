@@ -51,10 +51,6 @@ export default class MainTable extends Component {
 
 
   handleRate = (e, rating, record, level, label) => {
-    console.log('rating: ' + rating);
-    console.log('e: ' + e.target.value);
-
-    
     let recordsCopy = JSON.parse(JSON.stringify(this.state.records));
 
     record[level].tier = rating;
@@ -144,19 +140,16 @@ export default class MainTable extends Component {
                        <br/>
                         <label>
                           Tier
-                      <Rating icon='star' size='huge' defaultRating={record[val].tier} maxRating={8} onRate={(e, {rating}) => this.handleRate(e, rating, record, val, label)}/>
+                      <Rating icon='star' size='huge' rating={record[val].tier} maxRating={8} onRate={(e, {rating}) => this.handleRate(e, rating, record, val, label)}/>
 
                       </label>
                       </Form>
                     </Modal.Content>
                     <Modal.Actions>
                       <div className="modalBtn">
-                        <Button color='green' inverted onClick={this.restorePrevious}>
-                          <Icon name='save' /> SAVE
-                        </Button>
                         <div className="centerFlex"></div>
                         <Button color='red' inverted onClick={this.restorePrevious}>
-                          <Icon name='remove' /> CANCEL
+                          <Icon name='remove' /> RESET
                         </Button>
                       </div>
                     </Modal.Actions>

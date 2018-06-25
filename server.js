@@ -62,36 +62,6 @@ if(!dev){
             res.end();
         });
     });
-}else{
-    console.log("Running in dev");
-    app.use(morgan('common'));
-    app.use(bodyParser.json());
-
-    app.use(express.static(path.resolve(__dirname, 'public')));
-
-    app.get('/get-records', (req, res) => {
-        console.log("Fetching records");
-        readJSONFile('./build/records.json', function (err, json) {
-            if(err) { throw err; }
-            res.json(json);
-          });
-    })
-
-    app.get("*", (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
-    });
-
-    app.post('/save-records', (req, res) => {
-        saveRecords(req.body, function(err) {
-            if (err) {
-              res.status(404).send('Records not saved');
-              return;
-            }
-        
-            console.log("Saving records");
-            res.end();
-        });
-    });
 }
 
 function saveRecords(data, callback) {

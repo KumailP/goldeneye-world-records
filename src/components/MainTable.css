@@ -63,12 +63,13 @@
     width: 100%;
     display: flex;
 }
-.ui.button {
-    flex: 2;
+.modalBtn button {
+    /* flex: 2; */
+    margin: 0 auto !important;
 }
-.centerFlex {
+/* .centerFlex {
     flex: 1;
-}
+} */
 
 .ui.table {
     margin-bottom: 0px !important;
